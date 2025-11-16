@@ -20,9 +20,18 @@ export default function ProductGrid({ products, title }: ProductGridProps) {
       {title && (
         <h2 className="text-2xl font-bold text-white mb-6">{title}</h2>
       )}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
         {products.map((product) => (
-          <ProductCard key={product.id} product={product} />
+          <div
+            key={product.id}
+            className={
+              product.type === 'bike'
+                ? 'sm:col-span-2 md:col-span-2 lg:col-span-2'
+                : 'sm:col-span-1 md:col-span-1 lg:col-span-1'
+            }
+          >
+            <ProductCard product={product} />
+          </div>
         ))}
       </div>
     </div>

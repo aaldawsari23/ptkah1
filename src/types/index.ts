@@ -1,6 +1,9 @@
 // Product Types
 export type ProductType = 'bike' | 'part' | 'gear';
-export type StockStatus = 'available' | 'unavailable' | 'preorder';
+// The set of valid stock statuses. Removed the obsolete 'preorder' state since
+// the store no longer supports pre‑orders. Products are either available or
+// unavailable for purchase.
+export type StockStatus = 'available' | 'unavailable';
 export type ProductStatus = 'published' | 'hidden';
 
 export interface Product {

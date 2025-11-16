@@ -19,7 +19,7 @@ export default function ProductPage() {
 
   const displayName = product.name_ar || product.name_en || 'منتج';
   const isAvailable = product.stock_status === 'available';
-  const isPreorder = product.stock_status === 'preorder';
+  // Preorder status removed from the store; treat only available vs unavailable.
 
   const handleBuyNow = () => {
     // When a product has an external Salla URL configured, redirect the user there.
@@ -83,22 +83,20 @@ export default function ProductPage() {
             <div className="card">
               {/* Badges */}
               <div className="flex gap-2 mb-4">
-                {product.is_new && (
+                {product.is_new ? (
                   <span className="bg-primary text-white text-sm px-3 py-1 rounded-md font-semibold">
                     جديد
                   </span>
+                ) : (
+                  <span className="bg-yellow-600 text-white text-sm px-3 py-1 rounded-md font-semibold">
+                    مستعمل
+                  </span>
                 )}
-                {isAvailable && (
+                {isAvailable ? (
                   <span className="bg-green-600 text-white text-sm px-3 py-1 rounded-md font-semibold">
                     متوفر
                   </span>
-                )}
-                {isPreorder && (
-                  <span className="bg-yellow-600 text-white text-sm px-3 py-1 rounded-md font-semibold">
-                    طلب مسبق
-                  </span>
-                )}
-                {!isAvailable && !isPreorder && (
+                ) : (
                   <span className="bg-gray-700 text-white text-sm px-3 py-1 rounded-md font-semibold">
                     غير متوفر
                   </span>
@@ -127,7 +125,7 @@ export default function ProductPage() {
               {/* Price */}
               <div className="bg-background-light p-4 rounded-md mb-6">
                 <div className="flex items-baseline gap-2">
-                  <span className="text-4xl font-bold text-primary">
+                  <span className="text-4xl font-bold text-green-500">
                     {product.price.toLocaleString('ar-SA')}
                   </span>
                   <span className="text-lg text-text-secondary">{product.currency}</span>
@@ -190,7 +188,7 @@ export default function ProductPage() {
                       )}
                     </div>
                     <h3 className="text-white font-semibold mb-2 line-clamp-2">{p.name_ar}</h3>
-                    <p className="text-primary font-bold">{p.price.toLocaleString('ar-SA')} {p.currency}</p>
+                    <p className="text-green-500 font-bold">{p.price.toLocaleString('ar-SA')} {p.currency}</p>
                   </Link>
                 );
               })}
