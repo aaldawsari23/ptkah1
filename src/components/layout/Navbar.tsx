@@ -5,14 +5,12 @@ import { useState } from 'react';
 
 export default function Navbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  // Tracks which top-level menu is active (e.g. bikes, parts, gear) for displaying chips.
   const [activeMenu, setActiveMenu] = useState<string | null>(null);
 
   const toggleMenu = (menu: string) => {
     setActiveMenu(prev => (prev === menu ? null : menu));
   };
 
-  // Define chip options for each menu.
   const bikeChips = [
     { label: 'جديد', query: 'type=bike&condition=new' },
     { label: 'مستعمل', query: 'type=bike&condition=used' },
@@ -41,83 +39,70 @@ export default function Navbar() {
   ];
 
   return (
-    <nav className="bg-background-light border-b border-gray-800 sticky top-0 z-50">
-      <div className="container mx-auto px-4">
-        <div className="flex items-center justify-between h-16">
-          {/* Logo and store name */}
-          <Link href="/" className="flex items-start gap-2">
-            {/* Shield logo */}
-            <img src="/logo.jpeg" alt="سوفت تسعة وتسعين" className="h-10 w-10 md:h-12 md:w-12" />
-            {/* Store names and tagline */}
+    <nav className="bg-background-light border-b border-gray-800 sticky top-0 z-50 shadow-lg">
+      <div className="container mx-auto px-3 md:px-4">
+        <div className="flex items-center justify-between h-14 md:h-16">
+          {/* Logo and store name - simplified for mobile */}
+          <Link href="/" className="flex items-center gap-2">
+            <img src="/logo.jpeg" alt="سوفت تسعة وتسعين" className="h-9 w-9 md:h-11 md:w-11 rounded-md" />
             <div className="leading-tight">
-              <div className="flex flex-col">
-                <span className="text-primary font-bold text-sm md:text-base">سوفت تسعة وتسعين للدراجات النارية</span>
-                <span className="text-white text-xs md:text-sm">SoftNinteyNine</span>
-              </div>
-              <span className="hidden md:block text-[10px] text-text-muted mt-1">
-                بيع (جديد ومستعمل) + قطع غيار + اكسسوارات + مواقف للإيجار الشهري
+              <span className="text-primary font-bold text-sm md:text-lg block">
+                سوفت تسعة وتسعين
+              </span>
+              <span className="text-text-muted text-[10px] md:text-xs hidden md:block">
+                SoftNinteyNine Bikes
               </span>
             </div>
           </Link>
 
           {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center gap-6">
-            <Link href="/" className="text-text-secondary hover:text-white transition-colors">
+          <div className="hidden md:flex items-center gap-4 lg:gap-6">
+            <Link href="/" className="text-text-secondary hover:text-primary transition-colors text-sm lg:text-base">
               الرئيسية
             </Link>
-            <Link href="/catalog" className="text-text-secondary hover:text-white transition-colors">
-              المنتجات
+            <Link href="/catalog" className="text-text-secondary hover:text-primary transition-colors text-sm lg:text-base">
+              جميع المنتجات
             </Link>
-            {/* Bikes menu */}
+
+            {/* Category buttons */}
             <button
               onClick={() => toggleMenu('bike')}
-              className={`text-text-secondary hover:text-white transition-colors flex items-center gap-1 ${
-                activeMenu === 'bike' ? 'text-primary' : ''
+              className={`text-text-secondary hover:text-primary transition-colors text-sm lg:text-base ${
+                activeMenu === 'bike' ? 'text-primary font-semibold' : ''
               }`}
             >
-              الدراجات النارية
+              🏍️ الدراجات
             </button>
-            {/* Parts menu */}
             <button
               onClick={() => toggleMenu('part')}
-              className={`text-text-secondary hover:text-white transition-colors flex items-center gap-1 ${
-                activeMenu === 'part' ? 'text-primary' : ''
+              className={`text-text-secondary hover:text-primary transition-colors text-sm lg:text-base ${
+                activeMenu === 'part' ? 'text-primary font-semibold' : ''
               }`}
             >
               ⚙️ قطع الغيار
             </button>
-            {/* Gear menu */}
             <button
               onClick={() => toggleMenu('gear')}
-              className={`text-text-secondary hover:text-white transition-colors flex items-center gap-1 ${
-                activeMenu === 'gear' ? 'text-primary' : ''
+              className={`text-text-secondary hover:text-primary transition-colors text-sm lg:text-base ${
+                activeMenu === 'gear' ? 'text-primary font-semibold' : ''
               }`}
             >
-              الإكسسوارات
+              🪖 الإكسسوارات
             </button>
-            {/* Parking menu */}
-            <Link
-              href="/parking"
-              className="text-text-secondary hover:text-white transition-colors flex items-center gap-1"
-            >
-              🅿️ مواقف للإيجار
-            </Link>
-            <Link href="/contact" className="text-text-secondary hover:text-white transition-colors">
-              تواصل معنا
-            </Link>
-          </div>
 
-          {/* Admin Button */}
-          <div className="hidden md:flex items-center gap-4">
-            <Link href="/admin/login" className="btn-primary text-sm py-2 px-4">
-              لوحة التحكم
+            <Link href="/parking" className="text-text-secondary hover:text-primary transition-colors text-sm lg:text-base">
+              🅿️ مواقف
+            </Link>
+            <Link href="/contact" className="text-text-secondary hover:text-primary transition-colors text-sm lg:text-base">
+              تواصل معنا
             </Link>
           </div>
 
           {/* Mobile Menu Button */}
           <button
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            className="md:hidden text-white p-2"
+            className="md:hidden text-white p-2 hover:bg-background rounded-md transition-colors"
+            aria-label="القائمة"
           >
             <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               {isMobileMenuOpen ? (
@@ -131,50 +116,83 @@ export default function Navbar() {
 
         {/* Mobile Menu */}
         {isMobileMenuOpen && (
-          <div className="md:hidden py-4 border-t border-gray-800">
-            <div className="flex flex-col gap-4">
-              <Link href="/" className="text-text-secondary hover:text-white transition-colors">
-                الرئيسية
+          <div className="md:hidden py-4 border-t border-gray-800 space-y-1">
+            <Link
+              href="/"
+              className="block px-3 py-2.5 text-text-secondary hover:text-white hover:bg-background rounded-md transition-colors"
+              onClick={() => setIsMobileMenuOpen(false)}
+            >
+              الرئيسية
+            </Link>
+            <Link
+              href="/catalog"
+              className="block px-3 py-2.5 text-text-secondary hover:text-white hover:bg-background rounded-md transition-colors"
+              onClick={() => setIsMobileMenuOpen(false)}
+            >
+              جميع المنتجات
+            </Link>
+
+            <div className="border-t border-gray-800 my-2 pt-2">
+              <p className="px-3 text-xs text-text-muted mb-2">الفئات</p>
+              <Link
+                href="/catalog?type=bike"
+                className="block px-3 py-2.5 text-text-secondary hover:text-white hover:bg-background rounded-md transition-colors"
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                🏍️ الدراجات النارية
               </Link>
-              <Link href="/catalog" className="text-text-secondary hover:text-white transition-colors">
-                المنتجات
+              <Link
+                href="/catalog?type=part"
+                className="block px-3 py-2.5 text-text-secondary hover:text-white hover:bg-background rounded-md transition-colors"
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                ⚙️ قطع الغيار
               </Link>
-              <Link href="/catalog?type=bike" className="text-text-secondary hover:text-white transition-colors">
-                الدراجات
+              <Link
+                href="/catalog?type=gear"
+                className="block px-3 py-2.5 text-text-secondary hover:text-white hover:bg-background rounded-md transition-colors"
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                🪖 الإكسسوارات
               </Link>
-              <Link href="/catalog?type=part" className="text-text-secondary hover:text-white transition-colors">
-                قطع الغيار
+            </div>
+
+            <div className="border-t border-gray-800 my-2 pt-2">
+              <Link
+                href="/parking"
+                className="block px-3 py-2.5 text-text-secondary hover:text-white hover:bg-background rounded-md transition-colors"
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                🅿️ مواقف للإيجار
               </Link>
-              <Link href="/catalog?type=gear" className="text-text-secondary hover:text-white transition-colors">
-                الإكسسوارات
-              </Link>
-              <Link href="/contact" className="text-text-secondary hover:text-white transition-colors">
-                تواصل معنا
-              </Link>
-              <Link href="/admin/login" className="btn-primary text-sm py-2 px-4 text-center">
-                لوحة التحكم
+              <Link
+                href="/contact"
+                className="block px-3 py-2.5 text-text-secondary hover:text-white hover:bg-background rounded-md transition-colors"
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                📞 تواصل معنا
               </Link>
             </div>
           </div>
         )}
 
-      {/* Chips menu for desktop */}
-      {activeMenu && (
-        <div className="hidden md:block bg-background-light border-t border-gray-800 py-3">
-          <div className="container mx-auto px-4 flex flex-wrap gap-2">
-            {(activeMenu === 'bike' ? bikeChips : activeMenu === 'part' ? partChips : gearChips).map((chip) => (
-              <Link
-                key={chip.label}
-                href={`/catalog?${chip.query}`}
-                onClick={() => setActiveMenu(null)}
-                className="text-sm whitespace-nowrap px-4 py-2 rounded-full border border-gray-700 bg-background hover:bg-primary hover:text-white transition-colors"
-              >
-                {chip.label}
-              </Link>
-            ))}
+        {/* Chips menu for desktop - cleaner design */}
+        {activeMenu && (
+          <div className="hidden md:block border-t border-gray-800 py-3">
+            <div className="flex flex-wrap gap-2">
+              {(activeMenu === 'bike' ? bikeChips : activeMenu === 'part' ? partChips : gearChips).map((chip) => (
+                <Link
+                  key={chip.label}
+                  href={`/catalog?${chip.query}`}
+                  onClick={() => setActiveMenu(null)}
+                  className="text-xs lg:text-sm px-3 lg:px-4 py-1.5 lg:py-2 rounded-full bg-background border border-gray-700 text-text-secondary hover:bg-primary hover:text-white hover:border-primary transition-all duration-200"
+                >
+                  {chip.label}
+                </Link>
+              ))}
+            </div>
           </div>
-        </div>
-      )}
+        )}
       </div>
     </nav>
   );

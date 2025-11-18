@@ -9,8 +9,9 @@ interface ProductGridProps {
 export default function ProductGrid({ products, title }: ProductGridProps) {
   if (products.length === 0) {
     return (
-      <div className="text-center py-12">
-        <p className="text-text-secondary text-lg">لا توجد منتجات متاحة</p>
+      <div className="text-center py-12 md:py-16">
+        <div className="text-4xl md:text-5xl mb-4">🔍</div>
+        <p className="text-text-secondary text-base md:text-lg">لا توجد منتجات متاحة</p>
       </div>
     );
   }
@@ -18,16 +19,16 @@ export default function ProductGrid({ products, title }: ProductGridProps) {
   return (
     <div>
       {title && (
-        <h2 className="text-2xl font-bold text-white mb-6">{title}</h2>
+        <h2 className="text-xl md:text-2xl font-bold text-white mb-4 md:mb-6">{title}</h2>
       )}
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-6">
         {products.map((product) => (
           <div
             key={product.id}
             className={
               product.type === 'bike'
-                ? 'sm:col-span-2 md:col-span-2 lg:col-span-2'
-                : 'sm:col-span-1 md:col-span-1 lg:col-span-1'
+                ? 'col-span-2 md:col-span-2 lg:col-span-2'
+                : 'col-span-1'
             }
           >
             <ProductCard product={product} />
